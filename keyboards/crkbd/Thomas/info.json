@@ -163,7 +163,7 @@
             "watchdog": true
         }
     },
-    "community_layouts": [ "split_3x5_3", "split_3x6_3" ],
+    "community_layouts": [  "split_3x6_3_ex2" ],
     "layouts": {
         "LAYOUT_split_3x6_3_ex2": {
             "layout": [
@@ -231,7 +231,7 @@
         "led_count": 46,
         "split": true,
         "split_count": [23, 23],
-        "max_brightness": 50,
+        "max_brightness": 150,
         "animations": {
             "alternating": true,
             "breathing": true,
