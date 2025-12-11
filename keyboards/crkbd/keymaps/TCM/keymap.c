@@ -4,7 +4,7 @@
 
 enum layers_names {
     _BASE = 0,
-    _COLEMAK
+    _COLEMAK,
     _QWERTY,
     _SYMBOLS,
     _SPECIAL,
@@ -16,11 +16,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      // -----------+-------+-------+-------+-------+--------+---------------++-------------+-------+-------+---------+-------+---------+-------- //
         KC_ESC,     KC_Q,   KC_W,    KC_E,  KC_R,    KC_T,    KC_GRAVE,       KC_NUM,        KC_1,   KC_2,   KC_3,     KC_4,    KC_5,   KC_6,
      // -----------+-------+-------+-------+-------+--------+---------------++-------------+-------+-------+---------+-------+---------+-------- //
-        KC_TAB,      KC_A,    KC_S,    KC_D,   KC_F,   KC_G,    KC_RALT,      KC_DEL,       KC_WBAK, MS_BTN1, MS_BTN2, MS_BTN3,   MEH(KC_Z),  KC_LGUI,
+        KC_TAB,      KC_A,    KC_S,    KC_D,   KC_F,   KC_G,    KC_RALT,      KC_DEL,       KC_WBAK, MS_BTN1, MS_BTN2, MS_BTN3,   KC_UP,  KC_ENT,
      // -----------+-------+-------+-------+-------+--------+---------------++-------------+-------+-------+---------+-------+---------+-------- //
-        LSFT_T(KC_CAPS),    KC_Z,   KC_X,   KC_C,   KC_V,   KC_B,                           KC_WFWD,  MS_BTN4, MS_BTN5, MS_ACL1, MS_ACL2,  MS_ACL3,
+        LSFT_T(KC_CAPS),    KC_Z,   KC_X,   KC_C,   KC_V,   KC_B,                           KC_WFWD,  MS_BTN4, MS_BTN5, KC_LEFT, KC_DOWN,  KC_RIGHT,
      // -----------+-------+-------+-------+-------+--------+---------------++-------------+-------+-------+---------+-------+---------+-------- //
-                                            KC_LCTL,  KC_SCRL,   KC_SPC,      KC_SCRL,     TT(_QWERTY), TT(_COLEMAK)
+                                            KC_LCTL,  TT(_SYMBOLS),   LT(_COLEMAK, KC_SPC),      LT(_COLEMAK, KC_SCRL),  TT(_QWERTY), TT(_COLEMAK)
   ),
 
 [_COLEMAK] = LAYOUT_split_3x6_3_ex2(
@@ -80,14 +80,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 #define CAPS_LED_INDEX_LEFT 20 //index voor capslock toets links
 #define CAPS_LED_INDEX_RIGHT 43 //index rechts
+#define SCROLL_LED 45  // scroll led
 
 static const HSV layer_hsv[] = {
 
 [_BASE]       = { .h =   0, .s = 255, .v = 120}, //rood
 [_SYMBOLS]    = { .h =  85, .s = 255, .v = 120}, //groen
-[_QWERTY]     = { .h = 170, .s = 255, .v = 120}, //blauw
+[_COLEMAK]     = { .h = 170, .s = 255, .v = 120}, //blauw
 [_SPECIAL]    = { .h =  40, .s = 255, .v = 120}, //oranje
-[_EXTRA]      = { .h = 200, .s = 255, .v = 120}, //paars
+[_QWERTY]      = { .h = 200, .s = 255, .v = 120}, //paars
 };
 
 bool rgb_matrix_indicators_user(void) {
@@ -95,7 +96,7 @@ bool rgb_matrix_indicators_user(void) {
 
 uint8_t layer = get_highest_layer(layer_state);
 
-if (layer > _EXTRA) { //voor als er nog extra lagen bijkomen die geen kleur hebben
+if (layer > _SPECIAL) { //voor als er nog extra lagen bijkomen die geen kleur hebben
     layer = _BASE;
 }
 
@@ -109,6 +110,11 @@ if (host_keyboard_led_state().caps_lock) {
     rgb_matrix_set_color(CAPS_LED_INDEX_LEFT, 255, 255, 255);
 // rechts laagkleur
     rgb_matrix_set_color(CAPS_LED_INDEX_RIGHT, rgb.r, rgb.g, rgb.b);
+
+}
+
+if (host_keyboard_led_state().scroll_lock) {
+    rgb_matrix_set_color(SCROLL_LED, 255, 255, 255);
 
 }
 

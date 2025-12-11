@@ -222,6 +222,8 @@ uint16_t adns5050_get_cpi(void) {
     return (uint16_t)((cpival & 0b10000) * 125);
 }
 
+
+
 bool __attribute__((weak)) adns5050_check_signature(void) {
     uint8_t pid  = adns5050_read_reg(REG_PRODUCT_ID);
     uint8_t rid  = adns5050_read_reg(REG_REVISION_ID);
